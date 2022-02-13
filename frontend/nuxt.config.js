@@ -1,13 +1,11 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - frontend',
-    title: 'frontend',
+    titleTemplate: '%s',
+    title: 'Frontend',
     htmlAttrs: {
       lang: 'en'
     },
@@ -24,6 +22,8 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/common.scss',
+    '@/assets/mobile.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -55,18 +55,34 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
+    customVariables: [
+      '~/assets/variables.scss'
+    ],
+    defaultAssets: {
+      font: false
+    },
     theme: {
-      dark: true,
+      options: {
+        customProperties: true
+      },
       themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+        light: {
+          primary: {
+            base: '#0d8398',
+            lighten: '#a8dce8'
+          },
+          secondary: '#ee7035',
+          accent: '#d01677',
+          info: '#167fb5',
+          warning: '#c99519',
+          error: '#ba2322',
+          success: '#16a37f',
+          grey: {
+            base: '#666666',
+            lighten: '#EEEEEE',
+            darken: '#333333'
+          }
         }
       }
     }

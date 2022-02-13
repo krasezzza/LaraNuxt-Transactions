@@ -1,0 +1,52 @@
+@import '~vuetify/src/styles/styles.sass';
+
+:root {
+  --font-family-body:    'Roboto', sans-serif, emoji;
+  --font-family-heading: 'Raleway', sans-serif, emoji;
+}
+
+html {
+  overflow: auto !important;
+}
+
+body {
+  min-width: 420px;
+}
+
+h3 {
+  font-weight: 700;
+  color: var(--v-grey-darken);
+}
+
+a, a > * {
+  text-decoration: none;
+  color: var(--v-grey-base);
+}
+
+#app-bar {
+  padding: 0 130px;
+  background-color: #fff !important;
+  box-shadow: none;
+  border-bottom: 3px solid var(--v-secondary-base);
+}
+
+#main-wrapper {
+  background-image: url("../assets/background.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.card-title {
+  background-color: var(--v-primary-base);
+  color: var(--v-primary-lighten);
+}
+
+.text-small {
+  font-size: 12px;
+  letter-spacing: 0.25px;
+}
+
+.text-bold {
+  font-weight: bold;
+}

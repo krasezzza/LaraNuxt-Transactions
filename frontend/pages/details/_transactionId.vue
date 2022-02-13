@@ -17,13 +17,13 @@
       md="8"
       class="align-self-start px-3"
     >
-      <transaction-table />
+      <transaction-details />
     </v-col>
   </v-row>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'TransactionDetailsPage'
 }
 </script>

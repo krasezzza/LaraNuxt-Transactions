@@ -1,0 +1,20 @@
+$borderRadius: 4px;
+
+.message-success,
+.message-error,
+.message-warning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: $borderRadius;
+  border-bottom-left-radius: $borderRadius;
+}
+.message-success {
+  background-color: var(--v-success-base);
+}
+.message-error {
+  background-color: var(--v-error-base);
+}
+.message-warning {
+  background-color: var(--v-warning-base);
+}

@@ -1,4 +1,4 @@
-@import '~vuetify/src/styles/styles.sass';
+@import '../../node_modules/vuetify/src/styles/styles';
 
 :root {
   --font-family-body:    'Roboto', sans-serif, emoji;
@@ -31,7 +31,7 @@ a, a > * {
 }
 
 #main-wrapper {
-  background-image: url("../assets/background.jpg");
+  background-image: url("../img/background.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

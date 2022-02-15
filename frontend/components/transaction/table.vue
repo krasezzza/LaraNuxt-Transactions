@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :key="renderIndex">
     <v-card-title class="justify-center card-title py-4">
       <v-icon color="var(--v-primary-lighten)">
         mdi-briefcase-variant
@@ -13,7 +13,20 @@
 
       <v-spacer />
 
-      <div />
+      <v-tooltip left>
+        <template #activator="{ on, attrs }">
+          <v-icon
+            color="var(--v-primary-lighten)"
+            v-bind="attrs"
+            v-on="on"
+            @click="loadTransactionsList()"
+          >
+            mdi-autorenew
+          </v-icon>
+        </template>
+
+        <span>Reload transactions list</span>
+      </v-tooltip>
     </v-card-title>
 
     <v-card-text class="px-6 pt-4 pb-6">
@@ -74,13 +87,18 @@
         </v-col>
       </v-row>
 
+      <v-skeleton-loader
+        v-if="isLoading"
+        type="list-item-avatar@4"
+      />
+
       <v-data-table
+        v-else
         :headers="headers"
-        :items="items"
-        hide-default-header
-        hide-default-footer
-        item-key="id"
+        :items="transactions"
         :search="searchTerm"
+        hide-default-header
+        item-key="id"
       >
         <template #[`item`]="{ item, index }">
           <nuxt-link
@@ -90,26 +108,30 @@
           >
             <div
               class="status-section"
+              :class="{
+                'transaction-send': item.state === 'send',
+                'transaction-received': item.state === 'received',
+                'transaction-paid': item.state === 'paid',
+              }"
             />
 
             <div
-              class="px-2"
-              style="width: 13%; display: flex; align-items: center; justify-content: center"
+              class="transaction-date px-2"
             >
-              {{ item.date.substr(0, 6).trim() }}
+              {{ $dateFns.format(item.created_at, 'dd MMM') }}
             </div>
 
-            <div style="width: 16%; display: flex; align-items: center">
+            <div class="transaction-logo">
               <v-img
-                :src="item.logo"
+                src="https://www.uschamberfoundation.org/sites/default/files/styles/detail_image800w/public/Starbucks-Logo-Square.jpg?itok=f9VEhq5u"
                 max-width="32px"
                 class="mx-auto"
               />
             </div>
 
-            <div class="text-left px-4" style="width: 50%;">
+            <div class="transaction-receiver px-4">
               <span class="text-bold">
-                {{ item.beneficiary }}
+                {{ item.receiver }}
               </span>
               <br>
               <span class="text-capitalize">
@@ -117,12 +139,9 @@
               </span>
             </div>
 
-            <div
-              class="text-right"
-              style="width: 20%; display: flex; align-items: center; justify-content: end"
-            >
+            <div class="transaction-amount text-right">
               <h3 class="text-bold">
-                {{ item.amount }}
+                {{ $format.price(item.amount) }}
               </h3>
             </div>
           </nuxt-link>
@@ -141,7 +160,7 @@ export default {
         {
           text: 'Date',
           filterable: false,
-          value: 'date'
+          value: 'created_at'
         },
         {
           text: 'Logo',
@@ -150,7 +169,7 @@ export default {
         },
         {
           text: 'Beneficiary',
-          value: 'beneficiary'
+          value: 'receiver'
         },
         {
           text: 'Amount',
@@ -158,37 +177,50 @@ export default {
           value: 'amount'
         }
       ],
-      items: [
-        {
-          id: 'test-123',
-          date: '1 Aug 2020',
-          beneficiary: 'Coffee Shop',
-          amount: '-$42.87',
-          logo: 'https://seeklogo.com/images/C/coffee-shop-logo-D92C9F5E83-seeklogo.com.png',
-          type: 'card payment',
-          status: 'pending'
-        },
-        {
-          id: 'test-456',
-          date: '19 Oct 2020',
-          beneficiary: 'Burger King',
-          amount: '-$82.02',
-          logo: 'https://logodownload.org/wp-content/uploads/2015/02/burger-king-logo-1-1.png',
-          type: 'online transfer',
-          status: 'pending'
-        },
-        {
-          id: 'test-789',
-          date: '7 Jun 2020',
-          beneficiary: 'Starbucks',
-          amount: '-$57.19',
-          logo: 'https://pngset.com/images/starbucks-logo-starbucks-logo-starbucks-coffee-logo-symbol-trademark-badge-rug-transparent-png-2785606.png',
-          type: 'transaction',
-          status: 'pending'
-        }
-      ],
+      transactions: [],
       searchTerm: null,
       selectedFilters: []
+    }
+  },
+  async fetch () {
+    await this.loadTransactionsList()
+  },
+  computed: {
+    renderIndex () {
+      return this.$store.state.transaction.renderKeyList
+    },
+    isLoading () {
+      return this.$store.state.transaction.loading
+    }
+  },
+  watch: {
+    async renderIndex () {
+      await this.loadTransactionsList()
+    }
+  },
+  methods: {
+    async loadTransactionsList () {
+      await this.$store.dispatch(
+        'transaction/updateLoadingStatus',
+        true
+      )
+
+      this.transactions =
+        await this.$api.allTransactions()
+          .then((res) => {
+            return res.data
+          }).catch((err) => {
+            this.$toast.error('Transactions could not be loaded!')
+            // eslint-disable-next-line no-console
+            console.log(err)
+
+            return []
+          })
+
+      await this.$store.dispatch(
+        'transaction/updateLoadingStatus',
+        false
+      )
     }
   }
 }
@@ -200,17 +232,47 @@ export default {
   align-items: stretch;
   border: 1px solid var(--v-grey-lighten);
 
+  &:hover {
+    background-color: var(--v-grey-lighten);
+  }
+
   & > * {
     padding: 8px 16px;
   }
 
   .status-section {
     padding: 0 4px !important;
-    background-color: var(--v-grey-base);
   }
 
-  &:hover {
-    background-color: var(--v-grey-lighten);
+  .transaction-send {
+    background-color: var(--v-transaction-send);
+  }
+  .transaction-received {
+    background-color: var(--v-transaction-received);
+  }
+  .transaction-paid {
+    background-color: var(--v-transaction-paid);
+  }
+
+  .transaction-date {
+    width: 13%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .transaction-logo {
+    width: 16%;
+    display: flex;
+    align-items: center;
+  }
+  .transaction-receiver {
+    width: 50%;
+  }
+  .transaction-amount {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }
 

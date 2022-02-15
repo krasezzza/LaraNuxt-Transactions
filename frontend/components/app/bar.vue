@@ -10,7 +10,7 @@
     >
       <div class="d-flex">
         <v-img
-          :src="require('~/assets/peach.png')"
+          :src="require('~/assets/img/peach.png')"
           max-width="28"
         />
 

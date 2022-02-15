@@ -22,12 +22,16 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/assets/common.scss',
-    '@/assets/mobile.scss'
+    '@/assets/css/_common.scss',
+    '@/assets/css/_mobile.scss',
+    '@/assets/css/_snackbar.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/api',
+    '~/plugins/toast',
+    '~/plugins/format'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,7 +42,8 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/date-fns'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -57,7 +62,7 @@ export default {
   vuetify: {
     treeShake: true,
     customVariables: [
-      '~/assets/variables.scss'
+      '~/assets/css/variables.scss'
     ],
     defaultAssets: {
       font: false
@@ -82,7 +87,10 @@ export default {
             base: '#666666',
             lighten: '#EEEEEE',
             darken: '#333333'
-          }
+          },
+          'transaction-send': '#d01677',
+          'transaction-received': '#c99519',
+          'transaction-paid': '#16a37f'
         }
       }
     }

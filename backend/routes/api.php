@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/transactions', [TransactionController::class, 'listAll']);
+Route::get('/transactions/{id}', [TransactionController::class, 'getOne']);
+Route::post('/transactions', [TransactionController::class, 'create']);
+Route::put('/transactions/{id}', [TransactionController::class, 'update']);
+Route::delete('/transactions/{id}', [TransactionController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

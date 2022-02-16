@@ -209,10 +209,8 @@ export default {
         await this.$api.allTransactions()
           .then((res) => {
             return res.data
-          }).catch((err) => {
+          }).catch(() => {
             this.$toast.error('Transactions could not be loaded!')
-            // eslint-disable-next-line no-console
-            console.log(err)
 
             return []
           })

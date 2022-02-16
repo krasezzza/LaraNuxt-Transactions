@@ -46,7 +46,9 @@
                 </td>
 
                 <td>
-                  {{ $format.price(transaction.amount) }}
+                  <span v-if="transaction.amount">
+                    {{ $format.price(transaction.amount) }}
+                  </span>
                 </td>
               </tr>
 
@@ -56,7 +58,9 @@
                 </td>
 
                 <td>
-                  {{ $dateFns.format(transaction.created_at, 'dd MMM yyyy') }}
+                  <span v-if="transaction.created_at">
+                    {{ $dateFns.format(transaction.created_at, 'dd MMM yyyy') }}
+                  </span>
                 </td>
               </tr>
 
@@ -66,7 +70,9 @@
                 </td>
 
                 <td>
-                  {{ transaction.receiver }}
+                  <span v-if="transaction.receiver">
+                    {{ transaction.receiver }}
+                  </span>
                 </td>
               </tr>
 
@@ -76,7 +82,9 @@
                 </td>
 
                 <td>
-                  {{ transaction.state }}
+                  <span v-if="transaction.state">
+                    {{ transaction.state }}
+                  </span>
                 </td>
               </tr>
             </tbody>
@@ -202,12 +210,10 @@ export default {
         ).then((res) => {
           return res.data
         }).catch((err) => {
-          this.$toast.error('Transaction could not be loaded!')
-          // eslint-disable-next-line no-console
-          console.log(err)
-          this.$router.push('/')
-
-          return {}
+          return this.$nuxt.error({
+            statusCode: err.response.status,
+            message: err.response.statusText
+          })
         })
 
       this.transactionState = this.transaction.state
@@ -227,10 +233,8 @@ export default {
         this.$store.dispatch('transaction/updateRenderKeyOne')
 
         return res.data
-      }).catch((err) => {
+      }).catch(() => {
         this.$toast.error('Transaction could not be updated!')
-        // eslint-disable-next-line no-console
-        console.log(err)
 
         return {}
       })
@@ -244,11 +248,10 @@ export default {
 
         return res.data
       }).catch((err) => {
-        this.$toast.error('Transaction could not be deleted!')
-        // eslint-disable-next-line no-console
-        console.log(err)
-
-        return {}
+        return this.$nuxt.error({
+          statusCode: err.response.status,
+          message: err.response.statusText
+        })
       })
     },
     toggleDeleteDialog (isVisible) {

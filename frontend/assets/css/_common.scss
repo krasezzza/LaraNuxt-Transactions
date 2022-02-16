@@ -41,6 +41,10 @@ a, a > * {
   background-color: var(--v-primary-base);
   color: var(--v-primary-lighten);
 }
+.card-title-error {
+  background-color: var(--v-error-base);
+  color: var(--v-grey-lighten);
+}
 
 .text-small {
   font-size: 12px;

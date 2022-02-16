@@ -2,7 +2,7 @@
   <v-row
     justify="center"
     align="center"
-    class="pt-12 pb-6"
+    class="py-12"
   >
     <v-col
       cols="12"

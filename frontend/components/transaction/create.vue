@@ -97,10 +97,8 @@ export default {
         this.$store.dispatch('transaction/updateRenderKeyList')
 
         return res.data
-      }).catch((err) => {
+      }).catch(() => {
         this.$toast.error('Transaction could not be created!')
-        // eslint-disable-next-line no-console
-        console.log(err)
 
         return {}
       })

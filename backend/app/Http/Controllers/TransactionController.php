@@ -16,7 +16,7 @@ class TransactionController extends Controller
      */
     public function getOne($id)
     {
-        return Transaction::find($id);
+        return Transaction::findOrFail($id);
     }
 
     /**
@@ -53,7 +53,8 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::findOrFail($id);
+
         $transaction->update($request->all());
 
         return $transaction;

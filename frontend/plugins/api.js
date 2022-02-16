@@ -46,7 +46,7 @@ export default ({ $axios }, inject) => {
   async function updateTransaction (transactionId, payload) {
     const uri = `api/transactions/${transactionId}`
 
-    return await $axios.put(
+    return await $axios.patch(
       `${gateway}/${uri}`,
       payload,
       axiosConfig

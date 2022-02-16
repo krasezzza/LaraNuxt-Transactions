@@ -18,7 +18,7 @@ use App\Http\Controllers\TransactionController;
 Route::get('/transactions', [TransactionController::class, 'listAll']);
 Route::get('/transactions/{id}', [TransactionController::class, 'getOne']);
 Route::post('/transactions', [TransactionController::class, 'create']);
-Route::put('/transactions/{id}', [TransactionController::class, 'update']);
+Route::patch('/transactions/{id}', [TransactionController::class, 'update']);
 Route::delete('/transactions/{id}', [TransactionController::class, 'delete']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

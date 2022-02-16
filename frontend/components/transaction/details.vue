@@ -197,16 +197,18 @@ export default {
       )
 
       this.transaction =
-        await this.$api.oneTransaction(this.transactionId)
-          .then((res) => {
-            return res.data
-          }).catch((err) => {
-            this.$toast.error('Transaction could not be loaded!')
-            // eslint-disable-next-line no-console
-            console.log(err)
+        await this.$api.oneTransaction(
+          this.transactionId
+        ).then((res) => {
+          return res.data
+        }).catch((err) => {
+          this.$toast.error('Transaction could not be loaded!')
+          // eslint-disable-next-line no-console
+          console.log(err)
+          this.$router.push('/')
 
-            return {}
-          })
+          return {}
+        })
 
       this.transactionState = this.transaction.state
 

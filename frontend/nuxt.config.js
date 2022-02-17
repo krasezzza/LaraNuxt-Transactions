@@ -1,6 +1,12 @@
+const publicConfig = {
+  API_URL: 'http://localhost:8080'
+}
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+
+  publicRuntimeConfig: publicConfig,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -31,7 +37,8 @@ export default {
   plugins: [
     '~/plugins/api',
     '~/plugins/toast',
-    '~/plugins/format'
+    '~/plugins/format',
+    '~/plugins/vuelidate'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -49,13 +56,32 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  router: {
+    middleware: ['auth']
+  },
+
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseUrl: publicConfig.API_URL,
+    credentials: true
+  },
+
+  auth: {
+    redirect: {
+      login: false,
+      logout: false,
+      home: false,
+      callback: false
+    },
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: publicConfig.API_URL
+      }
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

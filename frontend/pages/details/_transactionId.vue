@@ -2,7 +2,7 @@
   <v-row
     justify="center"
     align="center"
-    class="py-12"
+    class="py-0"
   >
     <v-col
       cols="12"
@@ -24,6 +24,7 @@
 
 <script>
 export default {
-  name: 'TransactionDetailsPage'
+  name: 'TransactionDetailsPage',
+  middleware: 'loggedIn'
 }
 </script>

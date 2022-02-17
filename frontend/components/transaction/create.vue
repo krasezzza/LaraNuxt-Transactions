@@ -91,7 +91,9 @@ export default {
         sender: this.senderName,
         receiver: this.receiverName,
         amount: this.amountValue
-      }).then((res) => {
+      },
+      this.$auth.user.token
+      ).then((res) => {
         this.resetFields()
         this.$toast.success('Transaction created successfully.')
         this.$store.dispatch('transaction/updateRenderKeyList')

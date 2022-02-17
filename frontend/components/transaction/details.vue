@@ -29,7 +29,7 @@
         <div />
       </v-card-title>
 
-      <v-card-text class="px-6 py-6">
+      <v-card-text class="px-6 py-8">
         <v-skeleton-loader
           v-if="isLoading"
           type="list-item-avatar@4"
@@ -90,44 +90,47 @@
             </tbody>
           </template>
         </v-simple-table>
-
-        <div class="d-flex mt-8 mb-3 px-4">
-          <v-tooltip top>
-            <template #activator="{ on, attrs }">
-              <v-btn
-                icon
-                color="error"
-                class="align-self-center"
-                v-bind="attrs"
-                v-on="on"
-                @click="toggleDeleteDialog(true)"
-              >
-                <v-icon>
-                  mdi-trash-can-outline
-                </v-icon>
-              </v-btn>
-            </template>
-
-            <span>Delete transaction</span>
-          </v-tooltip>
-
-          <v-spacer />
-
-          <strong class="align-self-center">
-            Update state:
-          </strong>
-
-          <v-select
-            v-model="transactionState"
-            :items="['send', 'received', 'paid']"
-            label="State"
-            class="status-update"
-            hide-details
-            solo
-            @change="updateState()"
-          />
-        </div>
       </v-card-text>
+
+      <v-card-actions
+        v-if="!isLoading"
+        class="px-6 pt-2 pb-6"
+      >
+        <v-tooltip top>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="error"
+              class="align-self-center"
+              v-bind="attrs"
+              v-on="on"
+              @click="toggleDeleteDialog(true)"
+            >
+              <v-icon>
+                mdi-trash-can-outline
+              </v-icon>
+            </v-btn>
+          </template>
+
+          <span>Delete transaction</span>
+        </v-tooltip>
+
+        <v-spacer />
+
+        <strong class="align-self-center">
+          Update state:
+        </strong>
+
+        <v-select
+          v-model="transactionState"
+          :items="['send', 'received', 'paid']"
+          label="State"
+          class="status-update"
+          hide-details
+          solo
+          @change="updateState()"
+        />
+      </v-card-actions>
     </v-card>
 
     <v-dialog
@@ -135,7 +138,7 @@
       max-width="540"
       persistent
     >
-      <v-card>
+      <v-card class="py-4 px-2">
         <v-card-title>
           <h4>Are you sure?</h4>
         </v-card-title>
@@ -158,9 +161,10 @@
           <v-btn
             color="error"
             text
+            :disabled="isConfirmDisabled"
             @click="removeTransaction()"
           >
-            Proceed
+            Confirm
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -175,7 +179,8 @@ export default {
     return {
       transaction: {},
       transactionState: null,
-      deleteDialog: false
+      deleteDialog: false,
+      isConfirmDisabled: false
     }
   },
   async fetch () {
@@ -206,7 +211,8 @@ export default {
 
       this.transaction =
         await this.$api.oneTransaction(
-          this.transactionId
+          this.transactionId,
+          this.$auth.user.token
         ).then((res) => {
           return res.data
         }).catch((err) => {
@@ -228,7 +234,9 @@ export default {
         this.transactionId,
         {
           state: this.transactionState
-        }).then((res) => {
+        },
+        this.$auth.user.token
+      ).then((res) => {
         this.$toast.success('Transaction updated successfully.')
         this.$store.dispatch('transaction/updateRenderKeyOne')
 
@@ -240,11 +248,14 @@ export default {
       })
     },
     async removeTransaction () {
+      this.isConfirmDisabled = true
+
       await this.$api.deleteTransaction(
-        this.transactionId
+        this.transactionId,
+        this.$auth.user.token
       ).then((res) => {
         this.$toast.success('Transaction deleted successfully.')
-        this.$router.push('/')
+        this.$router.replace('/')
 
         return res.data
       }).catch((err) => {
@@ -253,6 +264,8 @@ export default {
           message: err.response.statusText
         })
       })
+
+      this.isConfirmDisabled = false
     },
     toggleDeleteDialog (isVisible) {
       this.deleteDialog = isVisible

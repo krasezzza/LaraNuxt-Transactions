@@ -3,7 +3,7 @@
     <app-bar />
 
     <v-main id="main-wrapper">
-      <v-container>
+      <v-container class="py-12">
         <nuxt />
       </v-container>
 

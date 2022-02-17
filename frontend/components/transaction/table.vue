@@ -1,5 +1,5 @@
 <template>
-  <v-card :key="renderIndex">
+  <v-card :key="renderIndex" class="mx-6 mx-md-1">
     <v-card-title class="justify-center card-title py-4">
       <v-icon color="var(--v-primary-lighten)">
         mdi-briefcase-variant

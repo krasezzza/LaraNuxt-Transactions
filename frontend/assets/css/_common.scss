@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  min-width: 420px;
+  min-width: 480px;
 }
 
 h3 {
@@ -24,10 +24,13 @@ a, a > * {
 }
 
 #app-bar {
-  padding: 0 130px;
   background-color: #fff !important;
   box-shadow: none;
   border-bottom: 3px solid var(--v-secondary-base);
+
+  .v-toolbar__content {
+    padding: 0;
+  }
 }
 
 #main-wrapper {
@@ -44,6 +47,10 @@ a, a > * {
 .card-title-error {
   background-color: var(--v-error-base);
   color: var(--v-grey-lighten);
+}
+
+.text-transform-none {
+  text-transform: none;
 }
 
 .text-small {

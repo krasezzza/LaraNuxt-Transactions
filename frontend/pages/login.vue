@@ -1,6 +1,6 @@
 <template>
-  <v-card>
-    <v-card-text class="px-16 py-8">
+  <v-card max-width="480" class="mx-auto">
+    <v-card-text class="px-12 py-8">
       <h1 class="text-center mt-4 mb-12">
         Welcome
       </h1>
@@ -35,7 +35,7 @@
           @click:append="showPassword = !showPassword"
         />
 
-        <div class="pt-6 pb-8">
+        <div class="py-6">
           <v-row
             v-if="errors.length"
           >
@@ -58,35 +58,38 @@
           </v-row>
         </div>
 
-        <v-row class="my-2">
+        <v-row class="ma-1">
           <v-col
             cols="5"
-            class="d-flex align-center justify-center pa-0"
+            class="d-flex align-center justify-start pa-0"
           >
             <nuxt-link
               to="/register"
-              class="app-link"
+              class="app-link text-bold"
             >
-              Don't have an account?
+              Don't have account?
             </nuxt-link>
           </v-col>
 
           <v-col
             cols="7"
-            class="text-center pa-0"
+            class="text-right pa-0"
           >
             <v-btn
               type="submit"
               rounded
               raised
               x-large
-              width="200"
+              width="160"
               color="primary"
-              class="text-transform-none"
               :loading="isButtonLoading"
               :disabled="!isLoginAllowed"
             >
-              Log in
+              <span
+                class="text-transform-none text-bold"
+              >
+                Login
+              </span>
             </v-btn>
           </v-col>
         </v-row>

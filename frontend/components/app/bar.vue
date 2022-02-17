@@ -1,6 +1,7 @@
 <template>
   <v-app-bar
     id="app-bar"
+    class="px-12"
     fixed
     app
   >
@@ -25,15 +26,39 @@
     <v-btn
       v-if="$auth.loggedIn"
       text
+      disabled
+      :ripple="false"
+      color="grey-darken"
+      class="d-none d-sm-block mx-0"
+    >
+      <span
+        class="text-transform-none text-bold"
+      >
+        {{ $auth.user.data.name }}
+      </span>
+
+      <v-icon class="ml-1">
+        mdi-account
+      </v-icon>
+    </v-btn>
+
+    <v-btn
+      v-if="$auth.loggedIn"
+      text
       :disabled="isLoading"
-      class="pr-0"
+      color="grey"
+      class="ml-1 mr-0"
       @click="logout()"
     >
-      <span class="mr-2">
+      <span
+        class="text-transform-none text-bold d-none d-sm-block"
+      >
         Logout
       </span>
 
-      <v-icon>mdi-logout</v-icon>
+      <v-icon class="ml-1">
+        mdi-logout
+      </v-icon>
     </v-btn>
   </v-app-bar>
 </template>

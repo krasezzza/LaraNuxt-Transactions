@@ -1,6 +1,6 @@
 <template>
   <div :key="renderIndex">
-    <v-card>
+    <v-card class="mx-6 mx-md-1">
       <v-card-title class="justify-center card-title py-4">
         <v-tooltip right>
           <template #activator="{ on, attrs }">
@@ -21,7 +21,7 @@
         <v-spacer />
 
         <h5>
-          Transaction Details for {{ transactionId }}
+          Transaction Details for #{{ transactionId }}
         </h5>
 
         <v-spacer />

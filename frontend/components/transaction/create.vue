@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="mx-6 mx-md-1">
     <v-card-title
       class="justify-center card-title py-2"
     >

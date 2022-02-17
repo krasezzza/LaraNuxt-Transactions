@@ -10,15 +10,11 @@ In order to run the application, you need to follow several steps:
 - You need to have PHP 8.0 and Node.js 14.17 installed and configured!
 - When you are ready with the tools installed, you can proceed to the further steps;
 
-**_NOTE:_** [ IMPORTANT ] Before starting up the API service, you have to copy/paste the following file:
+**_NOTE:_** [ IMPORTANT ] Before starting up the API service, you have to copy/paste the following files:
 
-```~/app/backend/database/database.sqlite.example```
+```~/.env.example``` into ```~/.env``` in order to have the environment variables enabled;
 
-... and rename the copied file to
-
-```~/app/backend/database/database.sqlite```
-
-... in order to have a working database!
+```~/app/backend/database/database.sqlite.example``` into ```~/app/backend/database/database.sqlite``` in order to have a working database;
 
 - When ready with the previous step, you can open the Terminal and navigate to the backend directory of the project:
 
@@ -30,6 +26,11 @@ $ cd ~/app/backend
 
 ```sh
 $ composer install
+```
+- After that, you have to run the migrations by executing:
+
+```sh
+$ php artisan migrate
 ```
 
 - If there are no errors on the console output, you can then execute the following command:
@@ -61,5 +62,12 @@ $ npm run dev
 ... by default you should see the Node.js server is running on ```http://localhost:3000``` or in case this port has been already used, it may differ from the example above!
 
 - Now you can visit [localhost:3000](http://localhost:3000) to access the frontend.
+
+- As a login profile, you can use the following:
+
+```
+email: jdoe@gmail.com
+pass: password
+```
 
 There shouldn't be any errors related, but in case there are some, please let me know :)

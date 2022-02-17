@@ -98,6 +98,7 @@
         :items="transactions"
         :search="searchTerm"
         hide-default-header
+        :hide-default-footer="!transactions.length"
         item-key="id"
       >
         <template #[`item`]="{ item, index }">
@@ -206,14 +207,15 @@ export default {
       )
 
       this.transactions =
-        await this.$api.allTransactions()
-          .then((res) => {
-            return res.data
-          }).catch(() => {
-            this.$toast.error('Transactions could not be loaded!')
+        await this.$api.allTransactions(
+          this.$auth.user.token
+        ).then((res) => {
+          return res.data
+        }).catch(() => {
+          this.$toast.error('Transactions could not be loaded!')
 
-            return []
-          })
+          return []
+        })
 
       await this.$store.dispatch(
         'transaction/updateLoadingStatus',

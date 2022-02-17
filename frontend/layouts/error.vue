@@ -1,43 +1,41 @@
 <template>
-  <v-container class="py-12">
-    <v-card>
-      <v-card-title
-        class="justify-center card-title-error py-4"
-      >
-        <v-tooltip right>
-          <template #activator="{ on, attrs }">
-            <nuxt-link to="/">
-              <v-icon
-                color="var(--v-grey-lighten)"
-                v-bind="attrs"
-                v-on="on"
-              >
-                mdi-arrow-left
-              </v-icon>
-            </nuxt-link>
-          </template>
+  <v-card>
+    <v-card-title
+      class="justify-center card-title-error py-4"
+    >
+      <v-tooltip right>
+        <template #activator="{ on, attrs }">
+          <nuxt-link to="/">
+            <v-icon
+              color="var(--v-grey-lighten)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              mdi-arrow-left
+            </v-icon>
+          </nuxt-link>
+        </template>
 
-          <span>Go to Recent Transactions</span>
-        </v-tooltip>
+        <span>Go to Recent Transactions</span>
+      </v-tooltip>
 
-        <v-spacer />
+      <v-spacer />
 
-        <h5>Error Occurred</h5>
+      <h5>Error Occurred</h5>
 
-        <v-spacer />
+      <v-spacer />
 
-        <div />
-      </v-card-title>
+      <div />
+    </v-card-title>
 
-      <v-card-text
-        class="text-center py-16"
-      >
-        <h1>
-          {{ errorText }}
-        </h1>
-      </v-card-text>
-    </v-card>
-  </v-container>
+    <v-card-text
+      class="text-center py-16"
+    >
+      <h1>
+        {{ errorText }}
+      </h1>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

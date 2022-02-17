@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TransactionController;
 
 /*
@@ -15,12 +15,11 @@ use App\Http\Controllers\TransactionController;
 |
 */
 
-Route::get('/transactions', [TransactionController::class, 'listAll']);
-Route::get('/transactions/{id}', [TransactionController::class, 'getOne']);
-Route::post('/transactions', [TransactionController::class, 'create']);
-Route::patch('/transactions/{id}', [TransactionController::class, 'update']);
-Route::delete('/transactions/{id}', [TransactionController::class, 'delete']);
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/transactions', [TransactionController::class, 'listAll']);
+    Route::get('/transactions/{id}', [TransactionController::class, 'getOne']);
+    Route::post('/transactions', [TransactionController::class, 'create']);
+    Route::patch('/transactions/{id}', [TransactionController::class, 'update']);
+    Route::delete('/transactions/{id}', [TransactionController::class, 'delete']);
 });

@@ -33,6 +33,12 @@ $ composer install
 $ php artisan migrate
 ```
 
+... as well as the seeders for the database:
+
+```sh
+$ php artisan db:seed
+```
+
 - If there are no errors on the console output, you can then execute the following command:
 
 ```sh
